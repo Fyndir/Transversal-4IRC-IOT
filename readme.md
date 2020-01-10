@@ -27,7 +27,7 @@ Son role est d'afficher la simulation en temps réel pour voir l'état des feu s
 
 * La brique IOT (https://github.com/Neexos/ProjectTrans):
 
-Son role est de transmettre les information du serveur de simulation au serveur d'emergency manager à l'aide de deux microcontrolleur , 2 rasberry et d'APIs devellopées sur les deux serveurs.
+Son role est de transmettre les information du serveur de simulation au serveur d'emergency manager à l'aide de deux microcontrolleur , 2 rasberry et d'APIs developées sur les deux serveurs.
 
 * Le serveur Emergency Manager (https://github.com/Fyndir/EmergencyManager):
 
