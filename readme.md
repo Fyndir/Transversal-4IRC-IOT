@@ -47,4 +47,5 @@ De ce côté le microcontrôleur analyse l'entête et vérifie que le paquet lui
 Du côté Emergency, 3 processus travaillent simultanément sur la Raspberry:
  - Le premier lis sur l'UART en continue et les stock dans 2 Queues afin d'éviter de perdre des données.
  - Le second lis sur la première Queue et envois les données en POST sur le serveur de l'EmergencyManager.
- - Le dernier lis sur la deuxième Queue et envois les données au serveur affichant les graphs (ex: moyenne d'intensité des feux sur tous les capteurs)
+ - Le dernier lis sur la deuxième Queue et envois les données au serveur affichant les graphs (ex: moyenne d'intensité des feux sur tous les capteurs)  
+Encryption utilisée en Python: https://en.wikipedia.org/wiki/XXTEA
