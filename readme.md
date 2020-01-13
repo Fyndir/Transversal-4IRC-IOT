@@ -42,6 +42,8 @@ La chaîne IoT se compose de 2 microcontrôleurs branchés sur une RaspberryPi c
 Nous somme partis sur une architecture où les microcontrôleurs n'ont pas (ou presque) d'intelligence. Le Raspberry côté simulation fait des requête afin d'obtenir les informations sur les feux en cours, il crypte les données et les formate pour les envoyer au microcontrôleur. Ce dernier récupère les données cryptées, ajoute une entête et envois les données au microcontrôleur côté emergencyManager.
 De ce côté le microcontrôleur analyse l'entête et vérifie que le paquet lui est destiné auquel cas il se charge d'envois les données à sa Raspberry. Cette dernière lit les données, les décrypte puis les envois à l'emergencyManager et à la base IoT.
 
+![sequence diagram IOT](https://github.com/Neexos/ProjectTrans/edit/master/diagramSequenceIOT.PNG)
+
 ```mermaid
 %% Diagramme de séquence chaîne IoT
   sequenceDiagram
