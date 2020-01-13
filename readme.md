@@ -38,8 +38,8 @@ Son role est d'inserer les données qu'il recoit dans la base de données à l'a
 Son role est de stocker les données des feux et d'affecté les camions au dit feux à l'aide d'un ensemble de trigger SQL
 
 # Chaîne IoT
-La chaîne IoT se compose de 2 microcontrôleurs branchés sur une RaspberryPi chacun.
-Nous somme partis sur une architecture où les microcontrôleurs n'ont pas (ou presque) d'intelligence. Le Raspberry côté simulation fait des requête afin d'obtenir les informations sur les feux en cours, il crypte les données et les formate pour les envoyer au microcontrôleur. Ce dernier récupère les données cryptées, ajoute une entête et envois les données au microcontrôleur côté emergencyManager.
+La chaîne IoT se compose de 2 microcontrôleurs branchés sur une RaspberryPi chacun.  
+Nous somme partis sur une architecture où les microcontrôleurs n'ont pas (ou presque) d'intelligence. Le Raspberry côté simulation fait des requête afin d'obtenir les informations sur les feux en cours, il crypte les données et les formate pour les envoyer au microcontrôleur. Ce dernier récupère les données cryptées, ajoute une entête et envois les données au microcontrôleur côté emergencyManager.  
 De ce côté le microcontrôleur analyse l'entête et vérifie que le paquet lui est destiné auquel cas il se charge d'envois les données à sa Raspberry. Cette dernière lit les données, les décrypte puis les envois à l'emergencyManager et à la base IoT.
 
 ![sequence diagram IOT](https://github.com/Neexos/ProjectTrans/blob/master/diagramSequenceIOT.PNG)
