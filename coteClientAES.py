@@ -6,7 +6,6 @@ import multiprocessing as mp
 #---------- VARS --------------
 url = "https://emergencymanager.azurewebsites.net/fire/send"
 
-
 SERIALPORT = "/dev/ttyUSB1"
 BAUDRATE = 115200
 ser = serial.Serial()
@@ -58,7 +57,7 @@ def sendHttp(buffer):
 
 
 #------------- IOT TO AZURE ----------------------------
-MSG_TXT = '{{"id": {id},"intensity": {intensity}}}'
+MSG_TXT = '{{"messageId": 666, "deviceId": "PythonDevice", "id": {id},"intensity": {intensity}}}'
 CONNECTION_STRING = "HostName=Transversal.azure-devices.net;DeviceId=MyPythonDevice;SharedAccessKey=uexoo0Y/uBIF5Rw/WWfedQ7Vjl64G/zStMHP9oSgNaU="
 
 def iothub_client_init():
@@ -77,35 +76,35 @@ def iothub_client_telemetry_sample_run(buffer):
             data = data.replace("b", "")
             tab = data.split(';')
             tab = tab[:-1]
+            valMean = 0
             for couple in tab:
                 new = couple.split(',')
                 deviceId = new[0]
                 fireIntensity = new[1]
-                msg_txt_formatted = MSG_TXT.format(id=deviceId, intensity=fireIntensity)
-                message = Message(msg_txt_formatted)
-                # Send the message.
-                print( "Sending message: {}".format(message) )
-                client.send_message(message)
-                print ( "Message successfully sent" )
+                valMean += int(new[1])
+            valMean = valMean/len(tab)
+            msg_txt_formatted = MSG_TXT.format(id=deviceId, intensity=valMean)
+            message = Message(msg_txt_formatted)
+            # Send the message.
+            print( "Sending message: {}".format(message) )
+            client.send_message(message)
+            print ( "Message successfully sent" )
     except KeyboardInterrupt:
         print ( "IoTHubClient sample stopped" )
         sys.exit()
-
-
-
 
 it = 0
 myStr = ""
 def main():
     global myStr, it
-    print('debut')
-    print('Attente de message')
+    #print('debut')
+    #print('Attente de message')
     encryptedData = bytes(readUARTMessage())
     #print('decryptage du message : '+encryptedData.decode('utf-8'))
     decrypted = xxtea.decrypt(encryptedData, key)
     #print('message decrypte : '+decrypted)
     finalRet = parseX(str(decrypted))
-    print('enleve les x : '+finalRet)
+    #print('enleve les x : '+finalRet)
     if(len(finalRet) != 0):
         print('ajout dans le buffer de '+ str(finalRet))
         myStr += str(finalRet)
@@ -114,6 +113,8 @@ def main():
                 it += 1
         print('nb données dans buffer :'+str(it))
     if it >= 50:
+        myStr = myStr.replace("\'", "")
+        myStr = myStr.replace("b", "")
         print('envoie dans la queue de P2 : ' + str(myStr))
         bufferPost.put(myStr)
         bufferIoT.put(myStr)
