@@ -44,27 +44,6 @@ De ce côté le microcontrôleur analyse l'entête et vérifie que le paquet lui
 
 ![sequence diagram IOT](https://github.com/Neexos/ProjectTrans/blob/master/diagramSequenceIOT.PNG)
 
-```mermaid
-%% Diagramme de séquence chaîne IoT
-  sequenceDiagram
-    Participant Website Simu
-    Rpi Simu ->> Website Simu: Requête GET
-    Website Simu ->> Rpi Simu: Envois des 50 capteurs
-    Rpi Simu->>Capteur Simu: Format, encrypt, envoi UART
-    loop Encapsulation
-      Capteur Simu->>Capteur Simu: Ajout des entêtes
-    end
-    Capteur Simu->>Capteur Emergency: Envois RF
-	loop Read UART
-	  Capteur Emergency->>Capteur Emergency: Récupération du message
-	end
-    Capteur Emergency->>Rpi Emergency: Transfert du message crypté
-        loop Decrypt
-	  Rpi Emergency ->> Rpi Emergency: Décryptage du message
-        end
-    Rpi Emergency ->> Website Emergency: Envois des données (POST)
-    Rpi Emergency ->> Website Graphs: Envois des données
-```
 Du côté Emergency, 3 processus travaillent simultanément sur la Raspberry:
  - Le premier lis sur l'UART en continue et les stock dans 2 Queues afin d'éviter de perdre des données.
  - Le second lis sur la première Queue et envois les données en POST sur le serveur de l'EmergencyManager.
